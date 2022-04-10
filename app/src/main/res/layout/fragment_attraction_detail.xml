@@ -12,6 +12,7 @@
         tools:context=".ui.AttractionDetailFragment">
 
         <TextView
+            android:id="@+id/tv_detail"
             android:gravity="center"
             android:textSize="24sp"
             android:textColor="@color/teal_200"

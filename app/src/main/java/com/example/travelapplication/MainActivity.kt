@@ -14,6 +14,9 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
+
+    private val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+
     val attractionList: List<Attraction> by lazy {
         parseAttractions()
     }
@@ -33,7 +36,6 @@ class MainActivity : AppCompatActivity() {
     private fun parseAttractions(): List<Attraction> {
         val textFormFile =
             resources.openRawResource(R.raw.croatia).bufferedReader().use { it.readText() }
-        val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
         //use moshi to parse json string into list
         //در این جا هم آن را به string تبدیل می کنیم

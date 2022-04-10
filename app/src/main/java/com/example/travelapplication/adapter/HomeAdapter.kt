@@ -10,7 +10,9 @@ import com.example.travelapplication.databinding.AttractionItemsBinding
 import com.example.travelapplication.model.Attraction
 import com.squareup.picasso.Picasso
 
-class HomeAdapter(private val onClickCallback:()-> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+//به خاطر argument که در navigation به detail دادیم , پارامتر string را به onClick می دهیم
+//با این کار به ایدی attraction دسترسی داریم
+class HomeAdapter(private val onClickCallback:(String)-> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val attractions = ArrayList<Attraction>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -36,7 +38,7 @@ class HomeAdapter(private val onClickCallback:()-> Unit) : RecyclerView.Adapter<
         LayoutInflater.from(parent.context).inflate(R.layout.attraction_items, parent, false)
     ) {
         private val binding = AttractionItemsBinding.bind(itemView)
-        fun onBind(attraction: Attraction, onClick:()->Unit) {
+        fun onBind(attraction: Attraction, onClick:(String)->Unit) {
             binding.tvTitle.text = attraction.title
             Glide.with(binding.root.context)
                 .load(attraction.image_url)
@@ -45,12 +47,10 @@ class HomeAdapter(private val onClickCallback:()-> Unit) : RecyclerView.Adapter<
             binding.tvAllYear.text = attraction.months_to_visit
 
             binding.root.setOnClickListener {
-                onClick()
+                onClick(attraction.title)
             }
         }
     }
-
-
 }
 
 

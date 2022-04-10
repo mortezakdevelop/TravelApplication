@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travelapplication.R
@@ -37,12 +38,15 @@ class HomeFragment : BaseFragment(),HomeItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val homeAdapter = HomeAdapter{
-            //todo handle onClick
+
+        // safe args
+        val homeAdapter = HomeAdapter{ attractionId ->
+            val action = HomeFragmentDirections.actionHomeFragmentToAttractionDetailFragment(attractionId)
+            findNavController().navigate(action)
         }
         fragmentHomeBinding.recyclerView.adapter = homeAdapter
         homeAdapter.setData(attraction)
-        
+
         //create divider between items
         fragmentHomeBinding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(),RecyclerView.VERTICAL))
 
