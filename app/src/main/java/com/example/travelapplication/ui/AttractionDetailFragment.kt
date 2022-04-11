@@ -1,12 +1,12 @@
 package com.example.travelapplication.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
@@ -30,6 +30,13 @@ class AttractionDetailFragment : BaseFragment() {
         attractions.find { it.id == safeArgs.attractionId }!!
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //set menu in detail fragment
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,12 +49,12 @@ class AttractionDetailFragment : BaseFragment() {
             false
         )
 
-            fragmentAttractionDetailBinding.textViewTitle.text = attraction.title
-            fragmentAttractionDetailBinding.textViewDescription.text = attraction.description
-            Glide.with(fragmentAttractionDetailBinding.root.context)
-                .load(attraction.image_url)
-                .into(fragmentAttractionDetailBinding.imageView)
-            fragmentAttractionDetailBinding.tvAllYear.text = attraction.months_to_visit
+        fragmentAttractionDetailBinding.textViewTitle.text = attraction.title
+        fragmentAttractionDetailBinding.textViewDescription.text = attraction.description
+        Glide.with(fragmentAttractionDetailBinding.root.context)
+            .load(attraction.image_url)
+            .into(fragmentAttractionDetailBinding.imageView)
+        fragmentAttractionDetailBinding.tvAllYear.text = attraction.months_to_visit
         fragmentAttractionDetailBinding.tvFact.text = "${attraction.facts.size} facts"
 
         fragmentAttractionDetailBinding.tvFact.setOnClickListener {
@@ -58,6 +65,26 @@ class AttractionDetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_fragment_detail, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.menuItemLocation -> {
+                //location google map intent
+                val gmmIntentUri = Uri.parse("geo:${attraction.location.latitude},${attraction.location.longitude}z=96q=${attraction.title}")
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                startActivity(mapIntent)
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {
