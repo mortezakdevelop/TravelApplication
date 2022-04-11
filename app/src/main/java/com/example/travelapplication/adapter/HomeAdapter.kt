@@ -42,12 +42,11 @@ class HomeAdapter(private val onClickCallback:(String)-> Unit) : RecyclerView.Ad
             binding.tvTitle.text = attraction.title
             Glide.with(binding.root.context)
                 .load(attraction.image_url)
-//                .load("https://www.apartmanisostaric.com/images/slider1.jpg")
                 .into(binding.ivImage)
             binding.tvAllYear.text = attraction.months_to_visit
 
             binding.root.setOnClickListener {
-                onClick(attraction.title)
+                onClick(attraction.id)
             }
         }
     }

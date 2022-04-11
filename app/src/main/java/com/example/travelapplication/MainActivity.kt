@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.travelapplication.model.Attraction
 import com.example.travelapplication.model.AttractionResponse
 import com.squareup.moshi.JsonAdapter
@@ -14,6 +17,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
+    lateinit var appBarConfiguration: AppBarConfiguration
 
     private val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
@@ -28,8 +32,17 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
+
+        //action bar
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController,appBarConfiguration)
+
     }
 
+    // back to home action bar icon
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
     //parsing raw resource json file
     //با اجزای این کد, تمام فایل json ما به این متغیر تزریق و ریخته میشود
     //سپس می توانیم moshi خود را build کنیم
