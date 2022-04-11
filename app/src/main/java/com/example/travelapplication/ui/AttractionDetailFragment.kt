@@ -30,7 +30,6 @@ class AttractionDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //دیتایی که به adapter داریم مثلا id یا title را در این جا هنگام نویگیت کردن دریافت می کنیم
-        fragmentAttractionDetailBinding.tvDetail.text = safeArgs.attractionId
     }
 
 }

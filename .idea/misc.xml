@@ -3,13 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/drawable/background_detail_image.xml" value="0.101" />
         <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/drawable/background_detail_title.xml" value="0.101" />
         <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.101" />
         <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/drawable/ic_baseline_flight_24.xml" value="0.101" />
         <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/layout/attraction_items.xml" value="0.18" />
         <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/layout/fragment_attraction_detail.xml" value="0.1" />
-        <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/layout/fragment_home.xml" value="0.18" />
+        <entry key="..\:/Users/morteza/AndroidStudioProjects/TravelApplication/app/src/main/res/layout/fragment_home.xml" value="0.1" />
       </map>
     </option>
   </component>
