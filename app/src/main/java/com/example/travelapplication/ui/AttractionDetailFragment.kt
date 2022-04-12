@@ -1,6 +1,7 @@
 package com.example.travelapplication.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.travelapplication.R
 import com.example.travelapplication.databinding.FragmentAttractionDetailBinding
 import com.example.travelapplication.model.Attraction
+import java.lang.StringBuilder
 
 
 class AttractionDetailFragment : BaseFragment() {
@@ -58,6 +60,25 @@ class AttractionDetailFragment : BaseFragment() {
         fragmentAttractionDetailBinding.tvFact.text = "${attraction.facts.size} facts"
 
         fragmentAttractionDetailBinding.tvFact.setOnClickListener {
+            val stringBuilder = StringBuilder("")
+            attraction.facts.forEach {
+                stringBuilder.append("\u2022 $it")
+                stringBuilder.append("\n\n")
+            }
+
+            //logic for get facts
+            val message =
+                stringBuilder.toString().substring(0, stringBuilder.toString().lastIndexOf("\n\n"))
+            //alert dialog
+            AlertDialog.Builder(requireContext()).setTitle("${attraction.title} facts")
+                .setMessage(message).setPositiveButton("Yes"){ dialog, which ->
+                    dialog.dismiss()
+                }
+                .setNegativeButton("No"){dialog,which ->
+                    dialog.dismiss()
+                }
+                .setCancelable(false)
+                .show()
         }
         return fragmentAttractionDetailBinding.root
     }
@@ -76,7 +97,8 @@ class AttractionDetailFragment : BaseFragment() {
         return when (item.itemId) {
             R.id.menuItemLocation -> {
                 //location google map intent
-                val gmmIntentUri = Uri.parse("geo:${attraction.location.latitude},${attraction.location.longitude}z=96q=${attraction.title}")
+                val gmmIntentUri =
+                    Uri.parse("geo:${attraction.location.latitude},${attraction.location.longitude}z=96q=${attraction.title}")
                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                 mapIntent.setPackage("com.google.android.apps.maps")
                 startActivity(mapIntent)
