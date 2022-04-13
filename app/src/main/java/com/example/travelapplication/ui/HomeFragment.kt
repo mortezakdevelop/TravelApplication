@@ -34,13 +34,21 @@ class HomeFragment : BaseFragment(),HomeItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // safe args
         val homeAdapter = HomeAdapter{ attractionId ->
-            val action = HomeFragmentDirections.actionHomeFragmentToAttractionDetailFragment(attractionId)
-            findNavController().navigate(action)
+            navController.navigate(R.id.action_homeFragment_to_attractionDetailFragment)
+            activityViewModel.onAttractionSelected(attractionId)
+
+            // safe args
+//            val action = HomeFragmentDirections.actionHomeFragmentToAttractionDetailFragment(attractionId)
+//            findNavController().navigate(action)
         }
         fragmentHomeBinding.recyclerView.adapter = homeAdapter
-        homeAdapter.setData(attractions)
+
+
+        activityViewModel.attractionListLiveData.observe(viewLifecycleOwner){attractions ->
+            homeAdapter.setData(attractions)
+        }
+
 
         //create divider between items
         fragmentHomeBinding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(),RecyclerView.VERTICAL))

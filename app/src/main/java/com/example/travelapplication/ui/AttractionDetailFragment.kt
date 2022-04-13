@@ -23,15 +23,6 @@ class AttractionDetailFragment : BaseFragment() {
     private var _binding: FragmentAttractionDetailBinding? = null
     private val fragmentAttractionDetailBinding get() = _binding!!
 
-    //هر پارامتری که به navigation خود در argument ارسال کرده بودیم را در این جا تزریق می شود
-    private val safeArgs by navArgs<AttractionDetailFragmentArgs>()
-
-    //access to id for find image(safe args)
-    //با این روش ما view های خود را settext کردیم
-    private val attraction: Attraction by lazy {
-        attractions.find { it.id == safeArgs.attractionId }!!
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,39 +41,40 @@ class AttractionDetailFragment : BaseFragment() {
             container,
             false
         )
+        activityViewModel.selectedAttractionLiveData.observe(viewLifecycleOwner){ attraction ->
 
-        fragmentAttractionDetailBinding.textViewTitle.text = attraction.title
-        fragmentAttractionDetailBinding.textViewDescription.text = attraction.description
-        Glide.with(fragmentAttractionDetailBinding.root.context)
-            .load(attraction.image_url)
-            .into(fragmentAttractionDetailBinding.imageView)
-        fragmentAttractionDetailBinding.tvAllYear.text = attraction.months_to_visit
-        fragmentAttractionDetailBinding.tvFact.text = "${attraction.facts.size} facts"
+            fragmentAttractionDetailBinding.textViewTitle.text = attraction.title
+            fragmentAttractionDetailBinding.textViewDescription.text = attraction.description
+            Glide.with(fragmentAttractionDetailBinding.root.context)
+                .load(attraction.image_url)
+                .into(fragmentAttractionDetailBinding.imageView)
+            fragmentAttractionDetailBinding.tvAllYear.text = attraction.months_to_visit
+            fragmentAttractionDetailBinding.tvFact.text = "${attraction.facts.size} facts"
 
-        fragmentAttractionDetailBinding.tvFact.setOnClickListener {
-            val stringBuilder = StringBuilder("")
-            attraction.facts.forEach {
-                stringBuilder.append("\u2022 $it")
-                stringBuilder.append("\n\n")
+            fragmentAttractionDetailBinding.tvFact.setOnClickListener {
+                val stringBuilder = StringBuilder("")
+                attraction.facts.forEach {
+                    stringBuilder.append("\u2022 $it")
+                    stringBuilder.append("\n\n")
+                }
+
+                //logic for get facts
+                val message =
+                    stringBuilder.toString().substring(0, stringBuilder.toString().lastIndexOf("\n\n"))
+                //alert dialog
+                AlertDialog.Builder(requireContext()).setTitle("${attraction.title} facts")
+                    .setMessage(message).setPositiveButton("Yes"){ dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("No"){dialog,which ->
+                        dialog.dismiss()
+                    }
+                    .setCancelable(false)
+                    .show()
             }
-
-            //logic for get facts
-            val message =
-                stringBuilder.toString().substring(0, stringBuilder.toString().lastIndexOf("\n\n"))
-            //alert dialog
-            AlertDialog.Builder(requireContext()).setTitle("${attraction.title} facts")
-                .setMessage(message).setPositiveButton("Yes"){ dialog, which ->
-                    dialog.dismiss()
-                }
-                .setNegativeButton("No"){dialog,which ->
-                    dialog.dismiss()
-                }
-                .setCancelable(false)
-                .show()
         }
         return fragmentAttractionDetailBinding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -96,6 +88,7 @@ class AttractionDetailFragment : BaseFragment() {
 
         return when (item.itemId) {
             R.id.menuItemLocation -> {
+                val attraction = activityViewModel.selectedAttractionLiveData.value ?:return true
                 //location google map intent
                 val gmmIntentUri =
                     Uri.parse("geo:${attraction.location.latitude},${attraction.location.longitude}z=96q=${attraction.title}")
