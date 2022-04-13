@@ -1,8 +1,11 @@
 package com.example.travelapplication
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -38,6 +41,15 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.init(this)
 
+        //location observe
+        viewModel.locationSelectedLiveData.observe(this) { attraction ->
+            //location google map intent
+            val gmmIntentUri =
+                Uri.parse("geo:${attraction.location.latitude},${attraction.location.longitude}z=96q=${attraction.title}")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+        }
     }
 
     // back to home action bar icon

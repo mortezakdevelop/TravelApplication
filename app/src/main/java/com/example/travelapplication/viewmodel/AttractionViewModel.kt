@@ -18,6 +18,8 @@ class AttractionViewModel :ViewModel(){
     //AttractionDetailFragment
     val selectedAttractionLiveData = MutableLiveData<Attraction>()
 
+    val locationSelectedLiveData = MutableLiveData<Attraction>()
+
     fun init(context: Context){
         viewModelScope.launch(Dispatchers.IO) {
             val attractionList = repository.parseAttractions(context)

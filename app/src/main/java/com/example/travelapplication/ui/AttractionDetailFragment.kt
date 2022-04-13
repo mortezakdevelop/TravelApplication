@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.travelapplication.R
@@ -35,12 +34,7 @@ class AttractionDetailFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = DataBindingUtil.inflate(
-            layoutInflater,
-            R.layout.fragment_attraction_detail,
-            container,
-            false
-        )
+        _binding = FragmentAttractionDetailBinding.inflate(inflater,container,false)
         activityViewModel.selectedAttractionLiveData.observe(viewLifecycleOwner){ attraction ->
 
             fragmentAttractionDetailBinding.textViewTitle.text = attraction.title
@@ -89,12 +83,7 @@ class AttractionDetailFragment : BaseFragment() {
         return when (item.itemId) {
             R.id.menuItemLocation -> {
                 val attraction = activityViewModel.selectedAttractionLiveData.value ?:return true
-                //location google map intent
-                val gmmIntentUri =
-                    Uri.parse("geo:${attraction.location.latitude},${attraction.location.longitude}z=96q=${attraction.title}")
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                startActivity(mapIntent)
+                activityViewModel.locationSelectedLiveData.postValue(attraction)
 
                 true
             }

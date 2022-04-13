@@ -5,6 +5,10 @@ plugins {
     id 'kotlin-kapt'
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 android {
     compileSdk 32
 
@@ -33,7 +37,7 @@ android {
     }
 
     buildFeatures {
-        dataBinding true
+        viewBinding true
     }
 }
 
@@ -63,6 +67,10 @@ dependencies {
 
     //moshi
     implementation 'com.squareup.moshi:moshi-kotlin:1.13.0'
+
+    //Epoxy
+    implementation "com.airbnb.android:epoxy:5.0.0-beta05"
+    kapt("com.airbnb.android:epoxy:5.0.0-beta05")
 
 
 
