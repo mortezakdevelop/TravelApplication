@@ -13,7 +13,7 @@ class AttractionViewModel :ViewModel(){
     private val repository = AttractionRepository()
 
     //HomeFragment
-    val attractionListLiveData = MutableLiveData<List<Attraction>>()
+    val attractionListLiveData = MutableLiveData<ArrayList<Attraction>>()
 
     //AttractionDetailFragment
     val selectedAttractionLiveData = MutableLiveData<Attraction>()

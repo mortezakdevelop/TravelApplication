@@ -4,17 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travelapplication.R
-import com.example.travelapplication.adapter.HomeAdapter
+import com.example.travelapplication.adapter.HomeController
 import com.example.travelapplication.adapter.HomeItemClickListener
 import com.example.travelapplication.databinding.FragmentHomeBinding
 import com.example.travelapplication.model.Attraction
 
 
-class HomeFragment : BaseFragment(),HomeItemClickListener {
+class HomeFragment : BaseFragment(), HomeItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -26,15 +25,14 @@ class HomeFragment : BaseFragment(),HomeItemClickListener {
         // Inflate the layout for this fragment
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val homeAdapter = HomeAdapter{ attractionId ->
+        val epoxyController = HomeController { attractionId ->
             navController.navigate(R.id.action_homeFragment_to_attractionDetailFragment)
             activityViewModel.onAttractionSelected(attractionId)
 
@@ -42,16 +40,22 @@ class HomeFragment : BaseFragment(),HomeItemClickListener {
 //            val action = HomeFragmentDirections.actionHomeFragmentToAttractionDetailFragment(attractionId)
 //            findNavController().navigate(action)
         }
-        binding.recyclerView.adapter = homeAdapter
+
+        binding.EpoxyRecyclerView.setController(epoxyController)
+        //create divider between items
+        binding.EpoxyRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                RecyclerView.VERTICAL
+            )
+        )
+        // binding.recyclerView.adapter = homeController.adapter
 
 
-        activityViewModel.attractionListLiveData.observe(viewLifecycleOwner){attractions ->
-            homeAdapter.setData(attractions)
+        activityViewModel.attractionListLiveData.observe(viewLifecycleOwner) { attractions ->
+            epoxyController.attractions = attractions
         }
 
-
-        //create divider between items
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(),RecyclerView.VERTICAL))
 
     }
 

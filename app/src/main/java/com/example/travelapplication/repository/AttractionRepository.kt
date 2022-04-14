@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 class AttractionRepository {
     private val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
-    suspend fun parseAttractions(context:Context): List<Attraction> {
+    suspend fun parseAttractions(context:Context): ArrayList<Attraction> {
         delay(5000)
         val textFormFile =
             context.resources.openRawResource(R.raw.croatia).bufferedReader().use { it.readText() }
@@ -20,7 +20,7 @@ class AttractionRepository {
         //use moshi to parse json string into list
         //در این جا هم آن را به string تبدیل می کنیم
         val adapter : JsonAdapter<AttractionResponse> =  moshi.adapter(AttractionResponse::class.java)
-        return adapter.fromJson(textFormFile)!!.attractions
+        return adapter.fromJson(textFormFile)!!.attractions as ArrayList<Attraction>
 
         //ارور می دهد به خاطر نداشتن کلاس attraction response
 //        val type = Types.newParameterizedType(List::class.java,Attraction::class.java)
