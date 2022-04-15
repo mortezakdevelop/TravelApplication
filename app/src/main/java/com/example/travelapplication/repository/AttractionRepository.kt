@@ -12,8 +12,8 @@ import kotlinx.coroutines.delay
 class AttractionRepository {
     private val moshi: Moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
-    suspend fun parseAttractions(context:Context): ArrayList<Attraction> {
-        delay(5000)
+        fun parseAttractions(context:Context): ArrayList<Attraction> {
+
         val textFormFile =
             context.resources.openRawResource(R.raw.croatia).bufferedReader().use { it.readText() }
 

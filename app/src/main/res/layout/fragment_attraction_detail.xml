@@ -31,43 +31,18 @@
                 app:layout_constraintBottom_toBottomOf="@id/image_view"
                 tools:text="Sali" />
 
-            <TextView
-                android:id="@+id/text_view_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/image_view"
-                tools:text="@tools:sample/lorem" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_all_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="4dp"
-                android:drawablePadding="8dp"
-                android:paddingTop="24dp"
-                android:paddingBottom="24dp"
-                android:text="All year"
-                android:textSize="16sp"
-                android:textStyle="italic"
-                app:drawableStartCompat="@drawable/ic_baseline_flight_24"
-                app:layout_constraintBottom_toBottomOf="@id/constraintLayout"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:background="?selectableItemBackgroundBorderless"
-                android:id="@+id/tv_fact"
-                tools:text="3 facts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_all_year"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_all_year" />
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/contentEpoxyRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingBottom="24dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_title"
+        app:spanCount="2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
